@@ -1,13 +1,12 @@
+@-moz-document url-prefix("https://github"), domain("github.com") {
 body {
-	background-color: #141518 !important;
+	background-color: #212121 !important;
 	background-clip: border-box !important;
 	background-origin: padding-box !important;
 	background-attachment: scroll !important;
 	background-repeat: repeat !important;
 	background-size: auto !important;
 	background-position: left top !important;
-	font-smoothing: antialiased;
-	-webkit-font-smoothing: antialiased;
 }
 /* custom code font */
 
@@ -15,14 +14,22 @@ pre,
 code,
 tt,
 kbd:not(.badmono),
-pre,
 samp,
 .blob-code,
+.blob-code-inner,
 .file-data pre,
 .line-data,
 #gist-form .file .input textarea,
-.blob-code-inner {
-	font-family: "Operator Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
+.blob-code-inner,
+.export-phrase pre,
+.file-editor-textarea,
+.gollum-editor .expanded textarea,
+.gollum-editor .gollum-editor-body,
+.input-monospace,
+.wiki-wrapper .wiki-history .commit-meta code {
+	font-family: "Operator Mono", "Hack", "Fira Code", "Ubuntu Mono", "Droid Sans Mono", "Liberation Mono", "Source Code Pro", Menlo, Consolas, Courier, monospace !important;
+	font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;
 }
 /* Base link/panel colors - text */
 
@@ -5927,8 +5934,9 @@ body.blog pre > code,
 }
 .pl-c,
 .pl-c span {
-	color: #5f5a60!important;
-	font-style: italic!important
+	color: #00d2b8!important;
+	font-size: 16px!important;
+	font-weight: bold!important;
 }
 .pl-c1 {
 	color: #cf6a4c!important
@@ -6610,19 +6618,6 @@ span.user {
       border-color: #304251;
   }*/
 
-code,
-kbd,
-pre,
-tt,
-.blob-code-inner,
-.export-phrase pre,
-.file-editor-textarea,
-.gollum-editor .expanded textarea,
-.gollum-editor .gollum-editor-body,
-.input-monospace,
-.wiki-wrapper .wiki-history .commit-meta code {
-	font-family: "Operator Mono", "Hack", "Fira Code", "Ubuntu Mono", "Droid Sans Mono", "Liberation Mono", "Source Code Pro", Menlo, Consolas, Courier, monospace !important;
-}
 .form-control,
 .form-select {
 	color: #fff;
@@ -8427,4 +8422,5 @@ a:hover,
 	padding-top: 12px;
 	padding-bottom: 0;
 	tab-size: 2 !important;
+}
 }
