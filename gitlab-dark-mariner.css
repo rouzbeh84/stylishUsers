@@ -1,4 +1,4 @@
-@-moz-document url-prefix("https://git."), domain("gitlab.com") {
+@-moz-document url-prefix("https://git."), url-prefix("https://gitlab."), domain("gitlab.com") {
 /* Userstyle for Gitlab.com. 
 Gitlab Dark Marine by: rouzbeh84
 based on Gitlab Dark by: 2E0PGS
@@ -21,6 +21,7 @@ h6,
 .wiki h4,
 .wiki p,
 .wiki,
+.md,
 .md-page,
 .blog-entry h1,
 .blog-entry h2,
@@ -38,11 +39,15 @@ h6,
 p,
 .cover-block .cover-title,
 .cover-block .cover-desc {
-	font-smoothing: antialiased;
-	-webkit-font-smoothing: antialiased;
+	font-smoothing: subpixel-antialiased;
+	-webkit-font-smoothing: subpixel-antialiased;
 	color: #f1f1f1 !important;
 }
 body,
+.main,
+.breadcrumbs+ul,
+.doc-nav>ul,
+.quick-nav ul,
 .full-post {
 	background-color: #222;
 }
@@ -64,27 +69,38 @@ header.navbar-gitlab,
 .commit-header,
 .navbar-default,
 .nav-sidebar,
+.toggle-sidebar-button,
+ul.sidebar-sub-level-items.fly-out-list>li,
 header.navbar-gitlab-new {
 	background: #131313 !important;
 	background-color: #131313 !important;
 	border-bottom: 1px solid #696969;
 }
+  header.navbar-gitlab-new .navbar-collapse {
+    color: #000 !important;
+  }
 .nav-sidebar li.active {
 	background-color: #181818 !important;
 	border-right: 2px solid  rgba(100, 215, 215, 1) !important;
 }
 .nav-sidebar li.active {
 	border-left: 2px solid  rgba(100, 215, 215, 1) !important;
-	box-shadow: 4px 0 0 #64d7d7;
+	box-shadow: 4px 0 0 rgba(100, 215, 215, 1) !important;
 	text-shadow: rgba(0, 0, 0, 0.71) 0.5px 0.5px 0.5px !important;
 }
 .sidebar-sub-level-items>li.active a, .sidebar-sub-level-items>li.active a:hover, .sidebar-sub-level-items>li.active a:focus {
 	background-color: #282828 !important;
 }
-.sidebar-top-level-items>li>a:hover {
+.sidebar-top-level-items>li>a:hover,
+ul.sidebar-sub-level-items.fly-out-list>li a:hover{
 	background-color: rgba(100, 215, 215, .75) !important;
 	color: #fff !important;
 	text-shadow: rgba(0, 0, 0, 0.71) 0.5px 0.5px 0.5px !important;
+}
+.sidebar-top-level-items>li .badge {
+	background: #ddd !important;
+	text-shadow: none;
+	font-weight: bold;
 }
 /* ---Icon for notifications--- */
 
@@ -92,18 +108,7 @@ header.navbar-gitlab .container-fluid .nav>li>a,
 a {
 	color: rgba(100, 215, 215, 1) !important;
 }
-/* ---Seems the Nav links got broken in recent update. May need to remove legacy version of this--- */
 
-.nav-links li a,
-header .header-content .title a,
-.project-stats .nav>li>a {
-	color: rgb(255, 255, 255);
-}
-.project-stats .nav>li>a:hover,
-.project-stats .nav>li>a:focus,
-.nav-links li a:hover {
-	color: rgba(100, 215, 215, .5) !important;
-}
 .cover-block {
 	background-color: #1e2125;
 }
@@ -120,8 +125,11 @@ header .header-content .title a,
 	box-shadow: inset 0px -5px 7px -6px rgba(200,200,200,0.5);
 }
 .content-wrapper .container-fluid {
-	background-color: #161616;
+	background-color: #333;
   padding: 5px 10px;
+}
+.breadcrumbs-container {
+	background-color: #222 !important;
 }
 #content-body > div.project-home-panel.text-center > div {
 	background-color: transparent !important;
@@ -165,22 +173,24 @@ header.navbar-gitlab .side-nav-toggle:hover {
 .dropdown-menu-toggle,
 .form-control,
 .search form {
-	background-color: #fff !important;
+	/* background-color: #fff !important; REMARKED MG */
 	border: 0px solid #e5e5e5;
 	border-radius: 0px;
-	color: #000;
+	color: #000 !important;
 }
-.dropdown-toggle-text.is-default {
-	color: rgba(255, 255, 255, 0.99);
-}
+
 .dropdown-menu,
 .dropdown-menu-nav {
 	background-color: #1c1e22;
 	border: 0px solid rgba(0, 0, 0, 0.1);
+        color: rgba(255, 255, 255, 0.99) !important;
 }
 .dropdown-menu a,
 .dropdown-menu-nav a {
 	color: #fff;
+}
+.dropdown-toggle-text.is-default {
+	color: rgba(0, 0, 0, 0.99) !important;
 }
 .dropdown-menu a:hover,
 .dropdown-menu-nav a:hover {
@@ -200,13 +210,25 @@ header.navbar-gitlab .side-nav-toggle:hover {
 .code.white,
 .code.white pre.code,
 .code.white .line_holder .line_content {
-	background-color: #1c1e22;
+	background-color: #333;
 	color: white;
 }
 .ace-tm .ace_gutter,
 .file-editor .ace_gutter-cell {
 	background: #272b2f;
 	color: #fff;
+}
+.ace-tm .ace_storage, .ace-tm .ace_keyword {
+  color: #e864ff;
+}
+.ace_paren {
+	color: #ffeb3b;
+}
+.ace-tm .ace_string {
+  color: #3cf390;
+}
+.ace_identifier {
+	color: #cacaca
 }
 .file-holder {
 	border: 1px solid #696969;
@@ -222,9 +244,17 @@ code {
 /* ------More Code Viewing and Syntax Tweaks------ */
 
 .code.white .line-numbers,
-.code.white .diff-line-num {
+.code.white .diff-line-num,
+.diff-files-changed {
 	background-color: #1e2125;
 	color: #f0f0f0;
+}
+.diff-files-changed.is-stuck,
+.diff-files-changed.is-sticky {
+	background: #fff !important;
+}
+.diff-files-changed .commit-stat-summary {
+	margin-left: 0px;
 }
 .code.white pre.code,
 .code.white .diff-line-num {
@@ -282,6 +312,9 @@ code {
 .code.white .line_holder .line_content.old span.idiff {
 	background-color: #80081a;
 }
+.diff-stats-additions-deletions-collapsed {
+	padding-right: 10px;
+}
 /* ---Privacy Options of Repo--- */
 
 .project-visibility-level-holder .radio .option-title {
@@ -293,18 +326,24 @@ code {
 /* ---Links--- */
 
 .nav-links li.active a {
-	border-bottom: 2px solid rgba(100, 215, 215, .75) !important;
+	border-top: 3px solid rgba(100, 215, 215, .75) !important;
 	color: rgba(100, 215, 215, 1) !important;
+	padding: 11px 15px 11px;
 }
-.nav-links li .badge {
-	background-color: #424242;
-	color: #ffffff;
+.nav-links li .badge,
+.nav-links li.active .badge{
+	background-color: #323232;
+	color: #fff;
 }
 ul.content-list>li a {
 	color: #fff;
 }
 ul.content-list>li {
 	color: #b1b1b1;
+}
+ul.content-list>li>div.group-row-contents:hover,
+ul.content-list>li.todo:hover{
+    background-color: #333;
 }
 /* ---Page Controls--- */
 
@@ -345,8 +384,11 @@ table.table tr th,
 .file-holder table tr th,
 .wiki table tr th,
 .md table tr th,
-ul.notes .note .note-body .note-text table tr th {
+ul.notes .note .note-body .note-text table tr th,
+ul.notes li,
+ul#notes-list li{
 	background-color: #1c1e22;
+	color: #eee !important
 }
 .layout-nav {
 	background: #1c1e22;
@@ -357,6 +399,9 @@ ul.notes .note .note-body .note-text table tr th {
 .layout-nav .nav-links li.active a,
 .layout-nav .nav-links li.active i {
 	color: #fff;
+}
+.nav-links li.active a {
+  border-bottom: none !important;
 }
 .layout-nav .nav-links li a:hover,
 .layout-nav .nav-links li i:hover {
@@ -375,7 +420,7 @@ ul.notes .note .note-body .note-text table tr th {
 .btn,
 .snippet-file-content .btn-clipboard {
 	border-radius: 2px;
-	background-color: #111213 !important;
+	background-color: #47555d !important;
 	border-color: #696969;
 	color: #ffffff;
 }
@@ -432,7 +477,7 @@ pre {
 .btn,
 .snippet-file-content .btn-clipboard {
 	border-radius: 2px;
-	background-color: #111213 !important;
+	background-color: #47555d !important;
 	border-color: rgba(229, 229, 229, 0) !important;
 	color: #ffffff !important;
 }
@@ -448,7 +493,7 @@ pre {
 	background-color: #1c1e22;
 }
 ul.content-list>li {
-	border-color: #696969;
+	border-color: #333;
 }
 /* ---Commit Network Graph Initial Background Colour--- */
 
@@ -473,6 +518,7 @@ ul.content-list>li {
 }
 ul.notes .system-note {
 	background: #1c1e22;
+	color: #b1b1b1 !important;
 }
 .board-header {
 	background-color: #1c1e22;
@@ -508,8 +554,13 @@ board-inner,
 }
 .note-headline-light,
 .discussion-headline-light,
-.right-sidebar.right-sidebar-expanded .no-value {
+.right-sidebar.right-sidebar-expanded .no-value,
+a.dropdown-toggle {
 	color: #f7f7f7;
+}
+.discussion-form {
+  background-color: #181818 !important;
+  color: #ddd !important;
 }
 /* ---Mark Down / Wiki--- */
 .wiki table {
@@ -521,6 +572,9 @@ board-inner,
 }
 .markdown-area {
 	background: #1c1e22;
+}
+.markdown-selector {
+	color: rgba(100, 215, 215, 1) !important;
 }
 .sub-header-block {
 	background-color: #1e2125;
@@ -564,7 +618,9 @@ legend {
 	color: rgba(210, 210, 210, 0.85);
 }
 /* ---Merges--- */
-
+.note-edit-form .md-area {
+	background: #1c1e22;
+}
 .merge-request.today,
 .issue.today,
 .merge-request.closed,
@@ -574,9 +630,30 @@ legend {
 	background: #1c1e22;
 	border-color: #696969;
 }
-.mr-state-widget .ci_widget {
-	color: rgba(177, 177, 177, 0.85);
+.comment-type-dropdown .comment-btn,
+#new_merge_request > div.middle-block.row-content-block > span > input {
+  width: auto;
+	font-weight: bold;
+  background-color: #2aa198!important;
 }
+a.btn.btn-nr.btn-comment.btn-close.close-mr-link.js-note-target-close,
+#new_merge_request > div.middle-block.row-content-block > div > a {
+	background-color: #8e0101!important;
+	padding-top: 3px;
+}
+.select2-container .select2-choice .select2-chosen,
+.select2-container.select2-drop-above .select2-choice .select2-chosen {
+	color: #2aa198!important;
+	font-weight: bold;
+}
+div.js-no-wip-explanation > a > code {
+	color: #2aa198!important;
+	font-weight: bold;
+	background-color: #333;
+	padding: inherit 2px inherit 4px;
+	border: .5px solid rgba(230,230,230,.5);
+}
+
 /*--- File Names--- */
 
 .tree-holder .tree-item .tree-item-file-name i,
@@ -619,11 +696,12 @@ legend {
 }
 .mr-state-widget {
 	background: #1c1e22;
-	color: #5c5c5c;
 	border: 1px solid #696969;
+	color: rgba(250, 250, 250, .9)!important;	
 }
-.mr-state-widget .ci_widget {
+.mr-state-widget .ci-widget {
 	border-bottom: 1px solid #696969;
+	color: rgba(250, 250, 250, .9)!important;	
 }
 /* ---Search Filter--- */
 
@@ -756,7 +834,15 @@ li.card.user-can-drag.is-active > h4 > a {
 .md .pipelines table.ci-table .pipeline-id,
 .pipelines ul.notes .note .note-body .note-text table.ci-table .pipeline-id,
 ul.notes .note .note-body .note-text .pipelines table.ci-table .pipeline-id {
-	color: #b6b6b7;
+	color: #b6b6b7 !important;
+	background: #242424 !important;
+}
+
+ul.notes>li .note-body .note-text li {
+		color: #eee !important;
+}
+.diff-file .notes_holder td.notes_line, .notes_holder, .notes_content, .diff-file .notes_holder td.notes_content .notes, ul.notes .system-note .note-body .note-text.system-note-commit-list::after {
+	background: transparent !important;
 }
 /* ------ Various Experiments ---- */
 /* --------- Need Clean Up ------- */
@@ -764,6 +850,7 @@ ul.notes .note .note-body .note-text .pipelines table.ci-table .pipeline-id {
 .info-well {
 	background: transparent !important;
 	border: 1px solid #333;
+	
 }
 .commiter {
 	color: rgb(0, 255, 97) !important;
@@ -784,9 +871,26 @@ ul.notes .note .note-body .note-text .pipelines table.ci-table .pipeline-id {
 	border: 1px solid #222;
 	padding: 10px 20px;
 }
+.limit-container-width .merge-request-tabs-container .inner-page-scroll-tabs {
+	margin: 0 -5px !important;
+	padding-left: 0 !important;
+	border-radius: 3px;
+}
+
+
+.limit-container-width .merge-request-tabs-container,
+.files-changed-inner {
+	max-width: 960px !important;
+	margin: -3px auto !important;
+	border-radius: 3px;
+	color: #000;
+}
 header .global-dropdown-toggle {
 	background-color: transparent !important;
 	color: white !important;
+}
+.cgreen {
+    color: #8bc34a;
 }
 header.navbar-gitlab .container-fluid .nav>li>a svg {
 	fill: rgb(177, 75, 255) !important;
@@ -827,6 +931,45 @@ code {
 .branch-commit .gfm-commit,
 .branch-commit .gfm-commit_range {
 	color: #389bfd;
+}
+#note_note {
+	font-size: 15px;
+	padding: 5px 10px;
+}
+.mr-state-widget .label-branch a,
+.nav-links.scrolling-tabs.is-initialized > ul > li > a,
+div.nav-links.scrolling-tabs.is-initialized > ul > li.notes-tab.active > a > span {
+	color: #00bcd4 !important;
+	font-weight: bold;
+}
+.nav-links li a:hover .badge, .nav-links li .participants-more .btn-link:hover .badge, .participants-more .nav-links li .btn-link:hover .badge, .nav-links li .user-list-more .btn-link:hover .badge, .user-list-more .nav-links li .btn-link:hover .badge, .nav-links li a:active .badge, .nav-links li a:focus .badge, .nav-links li.active a .badge {
+	color: rgba(100, 215, 215, 1) !important;
+}
+.nav-links li.active {
+	background-color: #222;
+}
+.mr-state-widget .label-branch a:hover,
+div.nav-links.scrolling-tabs > ul > li.notes-tab.active > a,
+.nav-links.scrolling-tabs.is-initialized > ul > li > a:hover {
+	background-color: rgba(100, 215, 215, 1) !important;
+	color: black!important;
+	font-weight: bold;
+}
+.merge-request-tabs-holder .nav-links .merge-request-tabs li.notes-tab.active a {
+	color: #000!important
+}
+.nav-links li a,
+header .header-content .title a,
+.project-stats .nav>li>a {
+	color: rgb(255, 255, 255);
+}
+.project-stats .nav>li>a:hover,
+.project-stats .nav>li>a:focus,
+.nav-links li a:hover {
+	color: rgba(120, 225, 225, .5) !important;
+}
+.diff-stats-summary-toggler {
+    color: rgba(100, 215, 215, 1) !important;
 }
 a:hover,
 button:hover {
@@ -911,5 +1054,53 @@ button:hover {
 .identicon.s70 {
   font-size: 24px;
   line-height: 40px;
+}
+
+.issuable-list li .issuable-milestone, .issuable-list li .issuable-info, .issuable-list li .task-status, .issuable-list li .issuable-updated-at {color: #b1b1b1}
+.breadcrumbs {
+	padding-top:5px;
+	padding-bottom:5px;
+}
+.mr-source-target .dropdown-toggle .fa, .mr-source-target .dropdown-menu-toggle .fa {
+    color: rgb(236, 236, 236);
+}
+.mr-source-target {
+	background: #363636 !important;
+}
+.btn.btn-close>.icon, .btn.btn-close-color>.icon {
+    color: #fb3838;
+}
+.right-sidebar.right-sidebar-collapsed .sidebar-collapsed-icon {
+    color: #2aa198;
+}
+.right-sidebar.right-sidebar-collapsed .sidebar-collapsed-icon:hover {
+    color: rgba(100, 215, 215, .5) !important;
+}
+.ci-table .branch-commit .fa {
+    font-size: 12px;
+    color: #db3b21;
+}
+.ci-table .branch-commit svg {
+    height: 14px;
+    width: 14px;
+    vertical-align: middle;
+    fill: #fc9403;
+}
+.pipelines .ci-table .pipeline-id {
+    color: #2aa198;
+}
+.well-segment.pipeline-info {
+	color: rgba(222,222,222,.95)	
+}
+.mr-widget-body .spacing,
+.note-role {
+	color: #ddd;
+}
+ul.content-list li.issuable-status {
+  color: #920d03;
+}
+
+div.stats>span {
+	color: white;
 }
 }
