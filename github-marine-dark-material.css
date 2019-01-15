@@ -8423,4 +8423,16 @@ a:hover,
 	padding-bottom: 0;
 	tab-size: 2 !important;
 }
+.user-status-message-wrapper {
+    color: rgba(240, 240, 80, 0.7) !important;
+}
+.user-status-limited-availability .ws-normal  {
+    color: #715252 !important;
+}
+.btn, .btn.review-simple-reply-button {
+    background-color: #3d3f42 !important;
+}
+.btn:hover, .btn:active, .btn.zeroclipboard-is-hover, .btn.zeroclipboard-is-active {
+    background-color: #31373c !important;
+}
 }
