@@ -6731,7 +6731,7 @@ button.dropdown-item.dropdown-signout {
 }
 .news .alert .octicon,
 svg.octicon-star {
-	color: #2ffff1e05a;
+	color: #2ffff1e0;
 }
 .news .alert .branch-link,
 .news .alert .pull-info {
@@ -7267,7 +7267,8 @@ span.d-block {
 /* Repo Issues & Pull Request Convo */
 
 .gh-header-edit .edit-issue-title,
-.gh-header-edit .edit-issue-title:focus {
+.gh-header-edit .edit-issue-title:focus,
+.gh-header .gh-header-sticky.is-stuck + .gh-header-shadow {
 	background-color: #151f29;
 }
 .gh-header-meta {
